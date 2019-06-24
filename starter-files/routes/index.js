@@ -4,7 +4,11 @@ const router = express.Router();
 // Do work here. req has all the info, res has all the methods
 // for sending the data back.
 router.get('/', (req, res) => {
-  res.send('Hey! It works!');
+  // 'hello' is a pug file, a template
+  res.render('hello', {
+    name: 'bruh',
+    dog: req.query.dog,
+  })
 });
 
 router.get('/reverse/:name', (req, res) => {
