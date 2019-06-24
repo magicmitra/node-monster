@@ -4,7 +4,8 @@ const storeController = require('../controllers/storeController');
 
 // Do work here. req has all the info, res has all the methods
 // for sending the data back.
-router.get('/', storeController.homePage);
+// NOTE: this passes to middleware first then homepage
+router.get('/', storeController.myMiddleware, storeController.homePage);
 
 
 
