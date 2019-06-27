@@ -82,6 +82,15 @@ function autocomplete(input, latInput, lngInput) {
     // none of this shit works until we get a valid API key
     // Oh fucking well
     var dropdown = new google.maps.places.Autocomplete(input);
+    dropdown.addListener('place_changed', function () {
+        var place = dropdown.getPlace();
+        latInput.value = place.geometry.location.lat();
+        lngInput.value = place.geometry.location.lng();
+    });
+    // if someone hits enter on the address field, dont submit form
+    input.on('keydown', function (e) {
+        if (e.keycode === 13) e.preventDefault();
+    });
 }
 
 exports.default = autocomplete;
