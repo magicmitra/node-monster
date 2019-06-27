@@ -14,6 +14,10 @@ const storeSchema = new mongoose.Schema({
         trim: true,
     },
     tags: [String], 
+    created: {
+        type: Date,
+        default: Date.now,
+    },
 });
 
 // pre save hook on 'slug' property
