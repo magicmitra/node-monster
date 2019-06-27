@@ -18,6 +18,20 @@ const storeSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
+    location: {
+        type: {
+            type: String,
+            default: 'Point',
+        },
+        coordinates: [{
+            type: Number,
+            required: 'Must supply coordinates',
+        }],
+        address: {
+            type: String,
+            required: 'Must supply address',
+        },
+    },
 });
 
 // pre save hook on 'slug' property
