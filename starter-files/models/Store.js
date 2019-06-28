@@ -44,6 +44,9 @@ storeSchema.pre('save', async function(next) {
     }
     this.slug = slug(this.name);
     // find other stores of same slug
+    // 2nd RegExp() param 'i' means case insensitive
+    // 1st RegExp() param -> {this.slug} means it starts with that
+    // the second part means that it could end with any of those
     const slugRegEx = new RegExp(`^(${this.slug})((-[0-9]*$)?)$`, 'i');
     const storesWithSlug = await this.constructor.find({ slug: slugRegEx });
     if(storesWithSlug.length) {
