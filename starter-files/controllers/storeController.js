@@ -21,7 +21,7 @@ exports.upload = multer(multerOptions).single('photo');
 
 // middleware, 'next' because the next process will have to be called
 exports.resize = async(req, res, next) => {
-    // check if no new file to resize
+    // check if no photo to resize
     if(!req.file) {
         next(); // skip to next middleware 
         return;
