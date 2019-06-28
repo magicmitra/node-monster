@@ -92,9 +92,14 @@ exports.getStoreBySlug = async (req, res, next) => {
 };
 
 exports.getStoresByTag = async (req, res) => {
+    // on intial request, there is no req.params.tag
+    const tag = req.params.tag;
+    // $exists: true, just pull all documents that have a tag field
+    const tagQuery = tag || { $exists: true };
     // create static methods in our Store model and 
     // we can name them whatever the fuck we want 
-    const tags = await Store.getTagsList();
-    const tag = req.params.tag;
-    res.render('tag', { tags, title: 'Tags', tag });
+    const tagsPromise = Store.getTagsList();
+    const storesPromise = Store.find({ tags: tagQuery });
+    const [tags, stores] = await Promise.all([tagsPromise, storesPromise]);
+    res.render('tag', { tags, title: 'Tags', tag, stores });
 };
