@@ -32,6 +32,7 @@ const storeSchema = new mongoose.Schema({
             required: 'Must supply address',
         },
     },
+    photo: String
 });
 
 // pre save hook on 'slug' property

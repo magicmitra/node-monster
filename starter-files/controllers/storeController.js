@@ -1,5 +1,40 @@
 const mongoose = require('mongoose');
 const Store = mongoose.model('Store');
+const multer = require('multer'); // handling photo upload
+const jimp = require('jimp'); // resizing photos
+const uuid = require('uuid'); // make filenames unique
+
+const multerOptions = {
+    storage: multer.memoryStorage(), // store in memory
+    fileFilter(req, file, next) {
+        const isPhoto = file.mimetype.startsWith('image/');
+        if(isPhoto) {
+            next(null, true);
+        } else {
+            next({ message: 'That file type is not allowed' }, false);
+        }
+    }
+};
+
+// middleware for multer
+exports.upload = multer(multerOptions).single('photo');
+
+// middleware, 'next' because the next process will have to be called
+exports.resize = async(req, res, next) => {
+    // check if no new file to resize
+    if(!req.file) {
+        next(); // skip to next middleware 
+        return;
+    }
+    const extension = req.file.mimetype.split('/')[1];
+    req.body.photo = `${uuid.v4()}.${extension}`;
+    // resize
+    const photo = await jimp.read(req.file.buffer);
+    await photo.resize(800, jimp.AUTO);
+    await photo.write(`./public/uploads/${req.body.photo}`);
+    // photo written into filesystem, move on
+    next(); // call createStore() or updateStore() which ever the router specifies
+}
 
 exports.homePage = (req, res) => {
     // console.log(req.name);
