@@ -21,6 +21,8 @@ router.post('/add/:id',
     catchErrors(storeController.updateStore)
 );
 
+router.get('/store/:slug', catchErrors(storeController.getStoreBySlug));
+
 // NOTE: req.params can be accessed anytime a URL contains a 'wildcard'
 // ':value'. Colon, then actual value. Now you fucking know.
 // Dynamic URLS buhzitches
