@@ -48,11 +48,26 @@ storeSchema.pre('save', async function(next) {
     // 1st RegExp() param -> {this.slug} means it starts with that
     // the second part means that it could end with any of those
     const slugRegEx = new RegExp(`^(${this.slug})((-[0-9]*$)?)$`, 'i');
+    // this.constructor is bound to the model, the implicit 'Store'
     const storesWithSlug = await this.constructor.find({ slug: slugRegEx });
     if(storesWithSlug.length) {
         this.slug = `${this.slug}-${storesWithSlug.length + 1}`;
     }
     next();
 });
+
+// put is on statics, 'this' will be bound to the model 
+storeSchema.statics.getTagsList = function() {
+    // google 'mongoDB aggregate operators'
+    return this.aggregate([
+        // pass an object for each pipeline operator
+        // operators start with'$'
+        // $unwind by tags. creates an instance of each document
+        // based off the number of tags with the tag being a single unique entry
+        { $unwind: '$tags' },
+        { $group: { _id: '$tags', count: { $sum: 1 } } },
+        { $sort: { count: -1 } },
+    ]); 
+}
 
 module.exports= mongoose.model('Store', storeSchema);
