@@ -56,9 +56,10 @@ storeSchema.pre('save', async function(next) {
     next();
 });
 
-// put is on statics, 'this' will be bound to the model 
+// put this on statics,  
 storeSchema.statics.getTagsList = function() {
     // google 'mongoDB aggregate operators'
+    // 'this' will be bound to the model
     return this.aggregate([
         // pass an object for each pipeline operator
         // operators start with'$'
