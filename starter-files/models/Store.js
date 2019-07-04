@@ -59,7 +59,7 @@ storeSchema.pre('save', async function(next) {
 // put this on statics,  
 storeSchema.statics.getTagsList = function() {
     // google 'mongoDB aggregate operators'
-    // 'this' will be bound to the model
+    // 'this' will be bound to the model, its why an arrow function isnt used
     return this.aggregate([
         // pass an object for each pipeline operator
         // operators start with'$'
