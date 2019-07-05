@@ -33,7 +33,10 @@ router.get('/register', userController.registerForm);
 // 1. validate registration data
 // 2. register user
 // 3. login after registering
-router.post('/register', userController.validateRegister);
+router.post('/register', 
+    userController.validateRegister,
+    userController.register
+);
 
 // NOTE: req.params can be accessed anytime a URL contains a 'wildcard'
 // ':value'. Colon, then actual value. Now you fucking know.
