@@ -23,6 +23,12 @@ const userSchema = new Schema({
 
 });
 
+// a virtual field 'gravatar'
+userSchema.virtual('gravatar').get(function() {
+    const hash = md5(this.email);
+    return `https://gravatar.com/avatar/${hash}?s=200`;
+})
+
 // authenticate with passportLocalMongoose
 // .register used on userController.register() is possible because
 // of passportLocalMongoose

@@ -11,7 +11,11 @@ const { catchErrors } = require('../handlers/errorHandlers');
 //=================store controllers=======================================
 router.get('/', catchErrors(storeController.getStores));
 router.get('/stores', catchErrors(storeController.getStores));
-router.get('/add', storeController.addStore);
+
+router.get('/add', 
+    authController.isLoggedIn, // require authentication to perform this route
+    storeController.addStore);
+
 router.post('/add', 
     storeController.upload,
     catchErrors(storeController.resize), 
@@ -27,8 +31,9 @@ router.get('/store/:slug', catchErrors(storeController.getStoreBySlug));
 router.get('/tags', catchErrors(storeController.getStoresByTag));  
 router.get('/tags/:tag', catchErrors(storeController.getStoresByTag));
 
-//========================user controllers================================
+//========================user and auth controllers================================
 router.get('/login', userController.loginForm);
+router.post('/login', authController.login);
 router.get('/register', userController.registerForm);
 
 // 1. validate registration data
@@ -39,6 +44,8 @@ router.post('/register',
     userController.register,
     authController.login
 );
+
+router.get('/logout', authController.logout);
 
 // NOTE: req.params can be accessed anytime a URL contains a 'wildcard'
 // ':value'. Colon, then actual value. Now you fucking know.
