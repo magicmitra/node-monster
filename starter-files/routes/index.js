@@ -46,6 +46,10 @@ router.post('/register',
 );
 
 router.get('/logout', authController.logout);
+router.get('/account', 
+    authController.isLoggedIn,
+    userController.account
+);
 
 // NOTE: req.params can be accessed anytime a URL contains a 'wildcard'
 // ':value'. Colon, then actual value. Now you fucking know.
