@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const storeController = require('../controllers/storeController');
 const userController = require('../controllers/userController');
+const authController = require('../controllers/authController');
 const { catchErrors } = require('../handlers/errorHandlers');
 
 // Do work here. req has all the info, res has all the methods
@@ -35,7 +36,8 @@ router.get('/register', userController.registerForm);
 // 3. login after registering
 router.post('/register', 
     userController.validateRegister,
-    userController.register
+    userController.register,
+    authController.login
 );
 
 // NOTE: req.params can be accessed anytime a URL contains a 'wildcard'

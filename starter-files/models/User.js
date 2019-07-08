@@ -24,6 +24,8 @@ const userSchema = new Schema({
 });
 
 // authenticate with passportLocalMongoose
+// .register used on userController.register() is possible because
+// of passportLocalMongoose
 userSchema.plugin(passportLocalMongoose, { usernameField: 'email', });
 userSchema.plugin(mongodbErrorHandler); // better fucking error messages
 

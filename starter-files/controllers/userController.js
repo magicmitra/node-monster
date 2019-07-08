@@ -38,7 +38,9 @@ exports.validateRegister = (req, res, next) => {
 exports.register = async (req, res, next) => {
     const user = new User({ email: req.body.email, name: req.body.name });
     // User.register possible because of passportLocalMongoose in User model
-    const register = promisify(User.register, User);
+    // .register is the actual fucking method that will take the password,
+    // hash it and save it to the actual DB       
+    const register = promisify(User.register, User); // make a promisified version of register
     await register(user, req.body.password);
     next(); // pass to authController.login
 }; 
