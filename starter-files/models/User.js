@@ -25,6 +25,11 @@ const userSchema = new Schema({
 
 // a virtual field 'gravatar'
 userSchema.virtual('gravatar').get(function() {
+    /**
+     * hash the email
+     * use that hash to find gravatar. 
+     * default ones will be provided for ones with no image
+     */
     const hash = md5(this.email);
     return `https://gravatar.com/avatar/${hash}?s=200`;
 })
