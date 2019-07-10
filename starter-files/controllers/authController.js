@@ -4,6 +4,7 @@ const passport = require('passport');
 const crypto = require('crypto'); // from node. cryptographs text/token
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
+const promisify = require('es6-promisify');
 
 // 'local' puts the user object on each request  
 exports.login = passport.authenticate('local', {
@@ -76,5 +77,23 @@ exports.confirmedPasswords = (req, res, next) => {
 };
 
 exports.update = async (req, res) => {
-
+    // check of token is valid and check if it is not expired
+    const user = await User.findOne({ 
+        resetPasswordToken: req.params.token, 
+        // $gt -> 'greater than'
+        resetPasswordExpires: { $gt: Date.now() },
+    }); 
+    if(!user) {
+        req.flash('error', 'Password reset token expired or invalid');
+        return res.redirect('/login');
+    }
+    const setPassword = promisify(user.setPassword, user); 
+    await setPassword(req.body.password);
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
+    // setting undefined to resets just cues up the database, call save
+    const updateUser = await user.save();
+    await req.login(updateUser);
+    req.flash('success', 'password has been set');
+    res.redirect('/');
 };
