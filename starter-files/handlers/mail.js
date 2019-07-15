@@ -12,3 +12,15 @@ const transport = nodemailer.createTransport({
         pass: process.env.MAIL_PASS,
     },
 });
+
+exports.send = async (options) => {
+    const mailOptions = {
+        from:  `Jones <fuckerjones@yahoomail.com>`,
+        to: options.user.email,
+        subject: options.subject,
+        html: 'will be filled in later',
+        text: 'will be filler in later',
+    };
+    const sendMail = promisify(transport.sendMail, transport);
+    return sendMail(mailOptions);
+};
