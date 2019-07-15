@@ -33,7 +33,7 @@ exports.isLoggedIn = (req, res, next) => {
     res.redirect('/login');
 };
 
-exports.forgot= async (req, res) => {
+exports.forgot = async (req, res) => {
     // 1. see if user exists by email
     const user = await User.findOne({ email: req.body.email });
     if(!user) {

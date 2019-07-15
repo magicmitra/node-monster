@@ -21,7 +21,9 @@ router.post('/add',
     catchErrors(storeController.resize), 
     catchErrors(storeController.createStore)
 );
-router.get('/stores/:id/edit', catchErrors(storeController.editStore));
+router.get('/stores/:id/edit', 
+    authController.isLoggedIn, // require authentication to perform this route
+    catchErrors(storeController.editStore));
 router.post('/add/:id', 
     storeController.upload,
     catchErrors(storeController.resize),
