@@ -32,7 +32,10 @@ const storeSchema = new mongoose.Schema({
             required: 'Must supply address',
         },
     },
-    photo: String
+    photo: String,
+    author: {
+        type: mongoose.Schema.ObjectId,
+    },
 });
 
 // pre save hook on 'slug' property
