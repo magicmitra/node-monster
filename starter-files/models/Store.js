@@ -35,6 +35,7 @@ const storeSchema = new mongoose.Schema({
     photo: String,
     author: {
         type: mongoose.Schema.ObjectId,
+        ref: 'User', 
     },
 });
 
