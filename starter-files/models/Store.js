@@ -42,6 +42,7 @@ const storeSchema = new mongoose.Schema({
 
 // define index: indices always defined in model in mongo/mongoose
 storeSchema.index({
+    // text value will be used for $text $search indexing on controller
     name: 'text',
     description: 'text',
 });
