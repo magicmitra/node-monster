@@ -111,3 +111,23 @@ exports.getStoresByTag = async (req, res) => {
     const [tags, stores] = await Promise.all([tagsPromise, storesPromise]);
     res.render('tag', { tags, title: 'Tags', tag, stores });
 };
+
+exports.searchStores = async (req, res) => {
+    const stores = await Store.find({
+        // now doable because of index definition at store model
+        $text: {
+            $search: req.query.q,
+        }
+    }, {
+        // creates a score based off the occurences of searched text
+        // METADATA calculator
+        score: { $meta: 'textScore' }
+    })
+    .sort({
+        // rearranges score in descending order
+        // METADATA calculator
+        score: { $meta: 'textScore' }
+    })
+    .limit(5); // limit to only 5 results
+    res.json(stores);
+};

@@ -61,6 +61,11 @@ router.post('/account/reset/:token',
     catchErrors(authController.update)
 );
 
+/**
+ * API
+ */
+router.get('/api/search', catchErrors(storeController.searchStores));
+
 // NOTE: req.params can be accessed anytime a URL contains a 'wildcard'
 // ':value'. Colon, then actual value. Now you fucking know.
 // Dynamic URLS buhzitches
