@@ -40,6 +40,12 @@ const storeSchema = new mongoose.Schema({
     },
 });
 
+// define index: indices always defined in model in mongo/mongoose
+storeSchema.index({
+    name: 'text',
+    description: 'text',
+});
+
 // pre save hook on 'slug' property
 // code executes before saving 
 storeSchema.pre('save', async function(next) {
