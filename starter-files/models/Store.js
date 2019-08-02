@@ -47,6 +47,8 @@ storeSchema.index({
     description: 'text',
 });
 
+// storeSchema.index({ location: '2dsphere' });
+
 // pre save hook on 'slug' property
 // code executes before saving 
 storeSchema.pre('save', async function(next) {
