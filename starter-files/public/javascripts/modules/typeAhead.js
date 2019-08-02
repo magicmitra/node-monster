@@ -1,7 +1,7 @@
 import { isRegExp } from 'util';
 
 import axios from 'axios';
-import dompurify from 'dompurify';
+import dompurify from 'dompurify'; // sanitizer for user inputs
 
 function searchResultsHTML(stores) {
     return stores.map(store => {
